@@ -1,6 +1,7 @@
 package inventariodc.br.org.seedabit.inventariodc.activity;
 
 import android.content.Intent;
+import android.graphics.Camera;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -38,9 +39,16 @@ public class FormActivity extends AppCompatActivity implements OnProductListener
 
     @Override
     public void barcodeCapture() {
-        IntentIntegrator intent = new IntentIntegrator(FormActivity.this);
-        intent.setBeepEnabled(true);
-        intent.initiateScan();
+        IntentIntegrator integrator = new IntentIntegrator(FormActivity.this);
+//        intent.setBeepEnabled(true);
+//        intent.setCameraId(0);
+//        intent.initiateScan();
+        integrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES);
+        integrator.setPrompt("Scan");
+        integrator.setCameraId(0);
+        integrator.setBeepEnabled(false);
+        integrator.setBarcodeImageEnabled(false);
+        integrator.initiateScan();
     }
 
     @Override
@@ -51,6 +59,9 @@ public class FormActivity extends AppCompatActivity implements OnProductListener
             if(barCode != null && !"".equals(barCode)){
                 this.txtBarCode.setText(barCode);
             }
+        }
+        else{
+            super.onActivityResult(requestCode, resultCode, data);
         }
     }
 }
