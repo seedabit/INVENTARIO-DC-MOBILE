@@ -7,6 +7,7 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +17,13 @@ import android.widget.Toast;
 import java.util.List;
 
 import inventariodc.br.org.seedabit.inventariodc.R;
+import inventariodc.br.org.seedabit.inventariodc.activity.FormActivity;
 import inventariodc.br.org.seedabit.inventariodc.adapters.ProdutoAdapter;
 import inventariodc.br.org.seedabit.inventariodc.beans.Produto;
+import inventariodc.br.org.seedabit.inventariodc.utils.Util;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class ListaFragment extends Fragment {
@@ -61,7 +67,20 @@ public class ListaFragment extends Fragment {
         btnCadastrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(), "Cadastrado!", Toast.LENGTH_LONG).show();
+                Call<List<Produto>> call = Util.addProdutos(mList);
+                call.enqueue(new Callback<List<Produto>>() {
+                    @Override
+                    public void onResponse(Call<List<Produto>> call, Response<List<Produto>> response) {
+                        Log.d("CallBack", "response is " + response.body());
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Produto>> call, Throwable t) {
+                        Log.d("CallBack", "Throwable is " + t.getLocalizedMessage());
+                    }
+                });
+
                 FormularioFragment.limparMList();
                 mList.clear();
 

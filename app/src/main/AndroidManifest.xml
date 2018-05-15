@@ -3,6 +3,7 @@
     package="inventariodc.br.org.seedabit.inventariodc">
 
     <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
@@ -11,7 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:screenOrientation="portrait">
+        android:screenOrientation="locked">
         <activity android:name=".activity.FormActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

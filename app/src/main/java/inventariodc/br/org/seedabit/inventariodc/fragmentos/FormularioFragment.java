@@ -99,43 +99,49 @@ public class FormularioFragment extends Fragment  implements OnProductListener {
         btnCadastrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!(txtBarCode.getText().toString().trim().equals("") &&
-                        edtDescricao.getText().toString().trim().equals("") &&
-                        edtLocalizacao.getText().toString().trim().equals("") &&
-                        edtResponsavel.getText().toString().trim().equals(""))) {
+                String tombamento = txtBarCode.getText().toString();
+                if(!tombamento.equals("")){
+                    if(!(edtResponsavel.getText().toString().trim().equals("") &&
+                            edtLocalizacao.getText().toString().trim().equals("") &&
+                            edtDescricao.getText().toString().trim().equals("") &&
+                            edtObservacao.getText().toString().trim().equals(""))) {
 
-                    if(rgStatus.getCheckedRadioButtonId() == R.id.rbFuncionando ||
-                            rgStatus.getCheckedRadioButtonId() == R.id.rbParado ||
-                            rgStatus.getCheckedRadioButtonId() == R.id.rbQuebrado) {
-                        String responsavel = edtResponsavel.getText().toString();
-                        String localizacao = edtLocalizacao.getText().toString();
-                        String tombamento = txtBarCode.getText().toString();
-                        String descricao = edtDescricao.getText().toString();
-                        String obs = edtDescricao.getText().toString();
-                        short status = 0;
+                        if (rgStatus.getCheckedRadioButtonId() == R.id.rbFuncionando ||
+                                rgStatus.getCheckedRadioButtonId() == R.id.rbParado ||
+                                rgStatus.getCheckedRadioButtonId() == R.id.rbQuebrado) {
 
-                        switch (rgStatus.getCheckedRadioButtonId()){
-                            case R.id.rbFuncionando:
-                                status = 1;
-                                break;
-                            case R.id.rbParado:
-                                status = 2;
-                                break;
-                            case R.id.rbQuebrado:
-                                status = 3;
-                                break;
-                            default:
-                                break;
-                        }
-                        if(status != 0) {
+                            String responsavel = edtResponsavel.getText().toString();
+                            String localizacao = edtLocalizacao.getText().toString();
+                            String descricao = edtDescricao.getText().toString();
+                            String obs = edtDescricao.getText().toString();
+                            String status = "";
+
+                            switch (rgStatus.getCheckedRadioButtonId()) {
+                                case R.id.rbFuncionando:
+                                    status = "Utilizado";
+                                    break;
+                                case R.id.rbParado:
+                                    status = "Parado";
+                                    break;
+                                case R.id.rbQuebrado:
+                                    status = "Quebrado";
+                                    break;
+                                default:
+                                    status = "";
+                                    break;
+                            }
+                            if (!status.equals("")) {
 //                            String tombParcial = "098123";
-                            Produto produto = new Produto(responsavel, localizacao, tombamento, descricao, obs, status);
-                            mList.add(produto);
-                            limparCampos();
-                            Toast.makeText(getActivity(), "Adicionado!", Toast.LENGTH_LONG).show();
+                                Produto produto = new Produto(tombamento, descricao, responsavel, localizacao, status, obs);
+                                mList.add(produto);
+                                limparCampos();
+                                Toast.makeText(getActivity(), "Adicionado!", Toast.LENGTH_LONG).show();
+                            } else
+                                Toast.makeText(getActivity(), "ERRO! \n TENTE NOVAMENTE!", Toast.LENGTH_LONG).show();
                         }
-                        else
-                            Toast.makeText(getActivity(), "ERRO! \n TENTE NOVAMENTE!", Toast.LENGTH_LONG).show();
+                        else{
+                            Toast.makeText(getActivity(), "Preencha os campos obrigatórios!", Toast.LENGTH_LONG).show();
+                        }
                     }
                     else
                         Toast.makeText(getActivity(), "Preencha os campos obrigatórios!", Toast.LENGTH_LONG).show();

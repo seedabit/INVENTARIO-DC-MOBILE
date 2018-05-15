@@ -4,81 +4,81 @@ package inventariodc.br.org.seedabit.inventariodc.beans;
 import java.io.Serializable;
 
 public class Produto {
-    private String responsavel;
-    private String localização;
-    private String tombamento;
-    private String descrição;
-    private String obs;
-    private short status;
+    private String barcode;
+    private String description;
+    private String responsable;
+    private String location;
+    private String status;
+    private String observation;
 
     public Produto() { }
 
-    public Produto(String responsavel, String localização, String tombamento, String descrição, String obs, short status) {
-        this.responsavel = responsavel;
-        this.localização = localização;
-        this.tombamento = tombamento;
-        this.descrição = descrição;
-        this.obs = obs;
-        this.status = status; //1-utilizado; 2-parado; 3-quebrado
+    public Produto(String barcode, String description, String responsable, String location, String status, String observation) {
+        this.barcode = barcode;
+        this.description = description;
+        this.responsable = responsable;
+        this.location = location;
+        this.status = status;
+        this.observation = observation;
     }
 
-    public String getResponsavel() {
-        return responsavel;
+    public String getBarcode() {
+        return barcode;
     }
 
-    public void setResponsavel(String responsavel) {
-        this.responsavel = responsavel;
+    public void setBarcode(String barcode) {
+        this.barcode = barcode;
     }
 
-    public String getLocalização() {
-        return localização;
+    public String getDescription() {
+        return description;
     }
 
-    public void setLocalização(String localização) {
-        this.localização = localização;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public String getTombamento() {
-        return tombamento;
+    public String getResponsable() {
+        return responsable;
     }
 
-    public void setTombamento(String tombamento) {
-        this.tombamento = tombamento;
+    public void setResponsable(String responsable) {
+        this.responsable = responsable;
     }
 
-    public String getDescrição() {
-        return descrição;
+    public String getLocation() {
+        return location;
     }
 
-    public void setDescrição(String descrição) {
-        this.descrição = descrição;
+    public void setLocation(String location) {
+        this.location = location;
     }
 
-    public String getObs() {
-        return obs;
-    }
-
-    public void setObs(String obs) {
-        this.obs = obs;
-    }
-
-    public short getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(short status) {
+    public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getObservation() {
+        return observation;
+    }
+
+    public void setObservation(String observation) {
+        this.observation = observation;
     }
 
     @Override
     public String toString() {
         return "Produto{" +
-                "responsavel='" + responsavel + '\'' +
-                ", localização='" + localização + '\'' +
-                ", tombamento='" + tombamento + '\'' +
-                ", descrição='" + descrição + '\'' +
-                ", obs='" + obs + '\'' +
-                ", status=" + status +
+                "barcode='" + barcode + '\'' +
+                ", description='" + description + '\'' +
+                ", responsable='" + responsable + '\'' +
+                ", location='" + location + '\'' +
+                ", status='" + status + '\'' +
+                ", observation=" + observation +
                 '}';
     }
 }

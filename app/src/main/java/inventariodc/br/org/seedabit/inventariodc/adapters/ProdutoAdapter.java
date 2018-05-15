@@ -34,8 +34,8 @@ public class ProdutoAdapter extends  RecyclerView.Adapter<ProdutoAdapter.MyViewH
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.barCode.setText(mList.get(position).getTombamento());
-        holder.descricao.setText(mList.get(position).getDescrição());
+        holder.barCode.setText(mList.get(position).getBarcode());
+        holder.descricao.setText(mList.get(position).getDescription());
     }
 
     @Override
