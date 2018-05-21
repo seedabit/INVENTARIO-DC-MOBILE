@@ -13,11 +13,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -31,12 +33,19 @@ import inventariodc.br.org.seedabit.inventariodc.interfaces.OnProductListener;
 
 
 public class FormularioFragment extends Fragment  implements OnProductListener {
+    public final static String DATA_CHANGE = "DATA";
+    private static Produto produtoForm;
+
+    private static boolean isManterLocal = false;
+    private static boolean isManterResp = false;
 
     private TextView txtBarCode;
     private EditText edtDescricao;
     private EditText edtLocalizacao;
     private EditText edtResponsavel;
     private EditText edtObservacao;
+    private CheckBox chk_resp;
+    private CheckBox chk_local;
     private Button btnScanner;
     private Button btnLimpar;
     private Button btnCadastrar;
@@ -61,8 +70,28 @@ public class FormularioFragment extends Fragment  implements OnProductListener {
         this.btnCadastrar = (Button) view.findViewById(R.id.btnCadastrar);
         this.btnVerLista =  (Button) view.findViewById(R.id.btnVerLista);
         this.rgStatus = (RadioGroup) view.findViewById(R.id.rgStatus);
+        this.chk_local = (CheckBox) view.findViewById(R.id.chk_localizacao);
+        this.chk_resp = (CheckBox) view.findViewById(R.id.chk_resp);
 
+        this.chk_local.setChecked(isManterLocal);
+        this.chk_resp.setChecked(isManterResp);
+
+        setInitialValues();
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+        chk_resp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isManterResp = !isManterResp;
+            }
+        });
+
+        chk_local.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isManterLocal = !isManterLocal;
+            }
+        });
 
         //click do botao para scanear o codigo de barras
         this.btnScanner.setOnClickListener(new View.OnClickListener() {
@@ -113,7 +142,7 @@ public class FormularioFragment extends Fragment  implements OnProductListener {
                             String responsavel = edtResponsavel.getText().toString();
                             String localizacao = edtLocalizacao.getText().toString();
                             String descricao = edtDescricao.getText().toString();
-                            String obs = edtDescricao.getText().toString();
+                            String obs = edtObservacao.getText().toString();
                             String status = "";
 
                             switch (rgStatus.getCheckedRadioButtonId()) {
@@ -133,7 +162,7 @@ public class FormularioFragment extends Fragment  implements OnProductListener {
                             if (!status.equals("")) {
 //                            String tombParcial = "098123";
                                 Produto produto = new Produto(tombamento, descricao, responsavel, localizacao, status, obs);
-                                mList.add(produto);
+                                addToList(produto);
                                 limparCampos();
                                 Toast.makeText(getActivity(), "Adicionado!", Toast.LENGTH_LONG).show();
                             } else
@@ -157,8 +186,12 @@ public class FormularioFragment extends Fragment  implements OnProductListener {
     public void limparCampos(){
         txtBarCode.setText("");
         edtDescricao.setText("");
-        edtLocalizacao.setText("");
-        edtResponsavel.setText("");
+        if(!isManterLocal){
+            edtLocalizacao.setText("");
+        }
+        if(!isManterResp){
+            edtResponsavel.setText("");
+        }
         edtObservacao.setText("");
         rgStatus.clearCheck();
     }
@@ -192,6 +225,65 @@ public class FormularioFragment extends Fragment  implements OnProductListener {
 
     public static List<Produto> getMList(){
         return mList;
+    }
+
+    private void addToList(Produto produto){
+        if(mList.contains(produto)){
+            mList.set(mList.indexOf(produto), produto);
+        }else{
+            mList.add(produto);
+        }
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.d("onStart", "Metodo OnStart");
+        Bundle args = getArguments();
+        if(args != null){
+            Log.d("onStart", "Tem dados");
+            String produtoFormString = args.getString(FormularioFragment.DATA_CHANGE);
+            produtoForm = new Gson().fromJson(produtoFormString, Produto.class);
+            Log.d("objeto", produtoForm.toString());
+            setInitialValues();
+        }
+    }
+
+    private void setInitialValues(){
+        if(produtoForm != null){
+            Log.d("objeto-init", produtoForm.toString());
+            this.txtBarCode.setText(produtoForm.getBarcode());
+            this.edtDescricao.setText(produtoForm.getDescription());
+            this.edtLocalizacao.setText(produtoForm.getLocation());
+            this.edtResponsavel.setText(produtoForm.getResponsable());
+            this.edtObservacao.setText(produtoForm.getObservation());
+            int id = -1;
+            switch (produtoForm.getStatus()) {
+                case "Utilizado":
+                    id = R.id.rbFuncionando;
+                    break;
+                case "Parado":
+                    id = R.id.rbParado;
+                    break;
+                case "Quebrado":
+                    id = R.id.rbQuebrado;
+                    break;
+                default:
+                    break;
+            }
+            this.rgStatus.check(id);
+            testeCarregamento();
+        }
+    }
+
+    private void testeCarregamento(){
+        while(this.txtBarCode.getText().toString().equals("") && produtoForm != null){
+            getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            setInitialValues();
+        }
+        getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
 
     public static void limparMList(){

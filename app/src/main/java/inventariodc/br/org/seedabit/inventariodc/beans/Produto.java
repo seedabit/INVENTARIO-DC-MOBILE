@@ -1,9 +1,12 @@
 package inventariodc.br.org.seedabit.inventariodc.beans;
 
 
-import java.io.Serializable;
+import android.support.annotation.NonNull;
 
-public class Produto {
+import java.io.Serializable;
+import java.util.Comparator;
+
+public class Produto implements Serializable{
     private String barcode;
     private String description;
     private String responsable;
@@ -80,5 +83,15 @@ public class Produto {
                 ", status='" + status + '\'' +
                 ", observation=" + observation +
                 '}';
+    }
+
+    public boolean equals(Object object){
+        if(object == null) return false;
+        if(object instanceof Produto){
+            if(((Produto) object).barcode.equals(this.barcode)){
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.QuickContactBadge;
 import android.widget.TextView;
 
 import java.util.List;
@@ -18,10 +19,16 @@ public class ProdutoAdapter extends  RecyclerView.Adapter<ProdutoAdapter.MyViewH
 
     private List<Produto> mList;
     private LayoutInflater mLayoutInflater;
+    private final OnItemClickListener listener;
 
-    public ProdutoAdapter(Context c, List<Produto> l){
+    public interface OnItemClickListener {
+        void onItemClick(Produto item);
+    }
+
+    public ProdutoAdapter(Context c, List<Produto> l, OnItemClickListener listener){
         mList = l;
         mLayoutInflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.listener = listener;
     }
 
     @NonNull
@@ -34,8 +41,11 @@ public class ProdutoAdapter extends  RecyclerView.Adapter<ProdutoAdapter.MyViewH
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.barCode.setText(mList.get(position).getBarcode());
-        holder.descricao.setText(mList.get(position).getDescription());
+        holder.bind(mList.get(position), listener);
+    }
+
+    private Produto getProdctByPosition(int pos){
+        return this.mList.get(pos);
     }
 
     @Override
@@ -53,5 +63,17 @@ public class ProdutoAdapter extends  RecyclerView.Adapter<ProdutoAdapter.MyViewH
             barCode = (TextView) itemView.findViewById(R.id.txtCodigoDeBarra);
             descricao = (TextView) itemView.findViewById(R.id.txtDescricao);
         }
+
+        public void bind(final Produto item, final OnItemClickListener listener){
+            barCode.setText(item.getBarcode());
+            descricao.setText(item.getDescription());
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onItemClick(item);
+                }
+            });
+        }
+
     }
 }

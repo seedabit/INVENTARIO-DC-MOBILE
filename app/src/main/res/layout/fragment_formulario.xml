@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView
+<ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
@@ -14,39 +15,77 @@
         android:focusableInTouchMode="true"
         tools:context=".fragmentos.FormularioFragment">
 
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/floatHintResponsavel"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginLeft="14dp">
+            android:layout_marginEnd="14dp"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal"
+            android:paddingEnd="14dp"
+            android:paddingStart="14dp">
 
-            <EditText
-                android:id="@+id/edtResponsavel"
-                android:layout_width="match_parent"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/floatHintResponsavel"
+                android:layout_width="240dp"
                 android:layout_height="wrap_content"
-                android:maxLength="50"
-                android:hint="Responsável" />
+                android:clipChildren="false">
 
-        </android.support.design.widget.TextInputLayout>
+                <EditText
+                    android:id="@+id/edtResponsavel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Responsável"
+                    android:maxLength="50"
+                    tools:layout_conversion_absoluteHeight="46dp"
+                    tools:layout_conversion_absoluteWidth="36dp"
+                    tools:layout_editor_absoluteX="14dp"
+                    tools:layout_editor_absoluteY="28dp" />
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/floatHintLocalizacao"
+            </android.support.design.widget.TextInputLayout>
+
+            <CheckBox
+                android:id="@+id/chk_resp"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="14dp"
+                android:text="Manter" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="16dp"
-            android:layout_marginLeft="14dp">
+            android:layout_marginEnd="14dp"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal"
+            android:paddingEnd="14dp"
+            android:paddingStart="14dp">
 
-            <EditText
-                android:id="@+id/edtLocalizacao"
-                android:layout_width="match_parent"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/floatHintLocalizacao"
+                android:layout_width="240dp"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/edtLocalizacao"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Localização"
+                    android:maxLength="50" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <CheckBox
+                android:id="@+id/chk_localizacao"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:maxLength="50"
-                android:hint="Localização" />
+                android:layout_marginTop="14dp"
+                android:text="Manter" />
 
-        </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -75,7 +114,8 @@
                     android:layout_marginLeft="18dp"
                     android:text=""
                     android:textSize="18sp"
-                    android:textColor="@color/preto"/>
+                    android:textColor="@color/preto"
+                    android:layout_gravity="center|right"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -128,17 +168,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <EditText
-                    android:id="@+id/edtObs"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:maxLength="100"
-                    android:minLines="3"
-                    android:maxLines="3"
-                    android:hint="Observação"
-                    />
-
             </ScrollView>
+
+            <EditText
+                android:id="@+id/edtObs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Observação"
+                android:maxLength="100"
+                android:maxLines="3"
+                android:minLines="3" />
 
         </android.support.design.widget.TextInputLayout>
 
