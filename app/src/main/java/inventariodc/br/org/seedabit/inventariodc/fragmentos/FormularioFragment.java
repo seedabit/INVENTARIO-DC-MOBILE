@@ -34,7 +34,7 @@ import inventariodc.br.org.seedabit.inventariodc.interfaces.OnProductListener;
 
 public class FormularioFragment extends Fragment  implements OnProductListener {
     public final static String DATA_CHANGE = "DATA";
-    private static Produto produtoForm;
+    public static Produto produtoForm;
 
     private static boolean isManterLocal = false;
     private static boolean isManterResp = false;

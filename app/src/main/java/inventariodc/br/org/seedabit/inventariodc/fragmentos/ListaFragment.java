@@ -96,6 +96,7 @@ public class ListaFragment extends Fragment {
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
+                FormularioFragment.produtoForm = null;
                 FormularioFragment myfragment = new FormularioFragment();
                 fragmentTransaction.replace(R.id.fragmentContainer, myfragment);
                 fragmentTransaction.commit();
